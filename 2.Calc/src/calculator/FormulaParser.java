@@ -76,7 +76,7 @@ public class FormulaParser {
 			}
 			return Operator.parseOperator(sign);
 		}
-		throw new RuntimeException();
+		throw new IllegalFormulaException("数式の終わり方が不正です");
 	}
 	
 	private CalculatableNode nextNode() throws IOException {
@@ -94,7 +94,7 @@ public class FormulaParser {
 				return node;
 			}
 		}
-		throw new RuntimeException();
+		throw new IllegalFormulaException("数式が不正です");
 	}
 	
 	private static StreamTokenizer getTokenizer(String formula) {

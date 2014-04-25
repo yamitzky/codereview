@@ -5,17 +5,22 @@ import java.io.IOException;
 public class Calculator {
 	public static void main(String[] args) {
 		boolean doubleMode = false;
-		// might generate exception
-		if (args[0].equals("-d")) {
-			doubleMode = true;
-		}
-		
-		int start = (doubleMode) ? 1 : 0; // -dオプションが指定されている場合は1以降
 		StringBuilder formulaBuilder = new StringBuilder();
-		for (int i = start; i < args.length; i++) {
-			formulaBuilder.append(args[i]);
+		for (String arg : args) {
+			if (arg.equals("-d")) {
+				doubleMode = true;
+			} else {
+				formulaBuilder.append(arg);
+			}
 		}
 		String formula = formulaBuilder.toString();
+		
+		if (formula.length() == 0) {
+			System.err.println("数式を指定してください。");
+			System.err.println("  例) java -jar calculator.jar \"2 * 3 / (3 + 2)\"");
+			System.err.println("  例) java -jar calculator.jar -d \"2 * 3 / (3 + 2)\"");
+			return;
+		}
 		
 		FormulaParser parser = new FormulaParser(formula);
 		CalculatableNode root;
@@ -23,6 +28,9 @@ public class Calculator {
 			root = parser.parseNode();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return;
+		} catch (IllegalFormulaException e) {
+			System.err.println(e.getMessage());
 			return;
 		}
 		

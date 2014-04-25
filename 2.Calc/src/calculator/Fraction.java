@@ -38,6 +38,26 @@ public class Fraction {
 		reduce();
 	}
 	
+	/**
+	 * 分子を取得するためのgetter
+	 * @return 分子
+	 */
+	public int getNumerator() {
+		return numerator;
+	}
+
+	/**
+	 * 分母を取得するためのgetter
+	 * @return 分母
+	 */
+	public int getDenominator() {
+		return denominator;
+	}
+
+	/**
+	 * 分数が示す値を小数に変換する
+	 * @return thisを表す小数
+	 */
 	public double toDouble() {
 		return (double) numerator / denominator;
 	}
@@ -122,9 +142,27 @@ public class Fraction {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + denominator;
+		result = prime * result + numerator;
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Fraction other = (Fraction) obj;
-		return (numerator == other.numerator &&
-				denominator == other.denominator);
+		if (denominator != other.denominator)
+			return false;
+		if (numerator != other.numerator)
+			return false;
+		return true;
 	}
 }
